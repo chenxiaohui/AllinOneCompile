@@ -3,7 +3,7 @@ AllinOneCompile
 
 A vim plugin to config the compile options of all kinds of file
 
-#markdown test
+##markdown test
 
 markdown
 
