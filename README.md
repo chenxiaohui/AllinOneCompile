@@ -1,4 +1,7 @@
 AllinOneCompile
 ===============
 
-A vim plugin to map all kinds of compile command to a key (eg F5/F6) according to the current file type.
+A vim plugin to config the compile options of all kinds of file
+
+
+
