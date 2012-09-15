@@ -5,8 +5,6 @@ AllinOneCompile
  You can fill a sturct and tell vim which command to use when deal with this kind of file,
  and vim will use this command to compile/run/debug it.Default key bind is F5/F6
 
- ***
-
 ##Copyright(C)
 
  Chen Xiaohui (www.roybit.com)
@@ -20,9 +18,6 @@ AllinOneCompile
  All rights reserved
 
  version:1.1
-
-
- ***
 
 ##Option Meanings:
 
@@ -43,9 +38,6 @@ AllinOneCompile
 	debug		''		win,unix
 	==========================================================================
 
-
- ***
-
 ##Attention: 
 
 the args should be write like This `{'arg':{'win':'xx','linux':'xx'}}` or `{'arg':'xx'`}
@@ -54,9 +46,6 @@ the former means set options for each kind of operation system, while the later 
 
 You can omit any option, which means use default value for this option.
 			
-
- ***
-
 ##Note:		
 In command option(compile,ucompile,clean,before,run) you can use symbol %  which means filename with extension, eg:test.pdf
 
@@ -65,9 +54,6 @@ In command option(compile,ucompile,clean,before,run) you can use symbol %  which
 > symbol %> which means output file type, eg:png,pdf
 
 > if symbol %> is used you should assign the option "out"
-
-
- ***
 
 ##Samples:
 
