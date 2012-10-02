@@ -7,7 +7,7 @@
 "* Thanks to Vimer, his blog(http://www.vimer.cn/?p=11) inspire me to write
 "* this plugin and some codes are also from his blog
 "* All rights reserved
-"* version:1.0
+"* version:1.1
 "*/
 
 "==========================================================================
@@ -295,7 +295,7 @@ function! Do_Make()
 	echo 'Make succeed.'
 endfunction
 
-"调试
+"debug
 map <silent> <S-F5> :call Do_Debug()<cr> 
 function! Do_Debug()
 	if !CheckFile()

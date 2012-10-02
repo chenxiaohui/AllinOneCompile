@@ -1,0 +1,63 @@
+<h1 id="allinonecompile">AllinOneCompile</h1>
+<p>A vim plugin to config the compile options of all kinds of file. You can fill a sturct and tell vim which command to use when deal with this kind of file, and vim will use this command to compile/run/debug it.Default key bind is F5/F6</p>
+<hr />
+<h2 id="copyrightc">Copyright(C)</h2>
+<p>Chen Xiaohui (www.roybit.com)</p>
+<p>mail:sdqxcxh@gmail.com</p>
+<p>Thanks to Vimer, his blog<a href="http://www.vimer.cn/?p=11"><code class="url">http://www.vimer.cn/?p=11</code></a> inspire me to write</p>
+<p>this plugin and some codes are also from his blog</p>
+<p>All rights reserved</p>
+<p>version:1.1</p>
+<hr />
+<h2 id="option-meanings">Option Meanings:</h2>
+<pre><code>==========================================================================
+option      default suboption       meaning
+            value
+==========================================================================
+compile     &#39;make&#39;  win,unix..      the default compile command
+ucompile    &#39;make&#39;  win,unix..      compile command when file encoding is utf8
+clean       &#39;make&#39;  win,unix..      the clean command
+out         &#39;&#39;      win,unix..      the output file type eg:png,pdf. This is
+                                        needed if symbol %&gt; is used
+efm         &#39;&#39;      win,unix..      errorformat string
+inshell     0       win,unix..      whether the command is run in shell or via makeprg.
+before      &#39;&#39;      win,unix..      command before compile
+run         &#39;&#39;      win,unix..      command run after compile
+arg         &#39;&#39;      compile,run     the parameters for run or compile
+debug       &#39;&#39;      win,unix
+==========================================================================</code></pre>
+<hr />
+<h2 id="attention">Attention:</h2>
+<p>the args should be write like This <code>{'arg':{'win':'xx','linux':'xx'}}</code> or <code>{'arg':'xx'</code>}</p>
+<p>the former means set options for each kind of operation system, while the later means the option for each operation system is the same.</p>
+<p>You can omit any option, which means use default value for this option.</p>
+<hr />
+<h2 id="note">Note:</h2>
+<p>In command option(compile,ucompile,clean,before,run) you can use symbol % which means filename with extension, eg:test.pdf</p>
+<blockquote>
+<p>symbol %&lt; which means filename without extension, eg:test</p>
+</blockquote>
+<blockquote>
+<p>symbol %&gt; which means output file type, eg:png,pdf</p>
+</blockquote>
+<blockquote>
+<p>if symbol %&gt; is used you should assign the option &quot;out&quot;</p>
+</blockquote>
+<hr />
+<h2 id="samples">Samples:</h2>
+<pre><code>let g:types={
+            \&#39;c&#39;:{&#39;compile&#39;:&#39;gcc -o %&lt;.%&gt; %&#39;,&#39;arg&#39;:{&#39;compile&#39;:&#39;-g&#39;},&#39;out&#39;:{&#39;win&#39;:&#39;exe&#39;,&#39;unix&#39;:&#39;out&#39;},
+            \&#39;run&#39;:{&#39;win&#39;:&#39;%&lt;&#39;,&#39;unix&#39;:&#39;./%&lt;.%&gt;&#39;},&#39;clean&#39;:&#39;rm %&lt;.%&gt;&#39;},
+            \&#39;cpp&#39;:{&#39;compile&#39;:&#39;g++ -o %&lt;.%&gt; %&#39;,&#39;arg&#39;:{&#39;compile&#39;:&#39;-g&#39;},&#39;out&#39;:{&#39;win&#39;:&#39;exe&#39;,&#39;unix&#39;:&#39;out&#39;},
+            \&#39;run&#39;:{&#39;win&#39;:&#39;%&lt;&#39;,&#39;unix&#39;:&#39;./%&lt;.%&gt;&#39;},&#39;clean&#39;:&#39;rm %&lt;.%&gt;&#39;},
+            \&#39;tex&#39;:{&#39;compile&#39;:&#39;xelatex %&#39;,&#39;inshell&#39;:1, &#39;clean&#39;:&#39;rm *.aux *.log *.out&#39;,&#39;out&#39;:&#39;pdf&#39;},
+            \&#39;cs&#39;:{&#39;compile&#39;:&#39;csc /nologo /out:%&lt;.%&gt; %&#39;,&#39;efm&#39;:&#39;%A%f(%l\\,%c):%m&#39;,&#39;out&#39;:&#39;exe&#39;},
+            \&#39;python&#39;:{&#39;compile&#39;:&#39;python %&#39;,&#39;inshell&#39;:1,&#39;debug&#39;:&#39;python -m pdb %&#39;,&#39;arg&#39;:&#39;file.tst&#39;},
+            \&#39;dot&#39;:{&#39;compile&#39;:{&#39;win&#39;:&#39;dot.bat %&lt; %&gt;&#39;,&#39;unix&#39;:&#39;dot -T%&gt; % -o %&lt;.%&gt;&#39;},&#39;out&#39;:&#39;png&#39;,
+            \&#39;run&#39;:{&#39;unix&#39;:&#39;eog %&lt;.%&gt;&#39;},&#39;inshell&#39;:1},
+            \&#39;php&#39;:{&#39;compile&#39;:&#39;php %&#39;,&#39;inshell&#39;:1},
+            \&#39;java&#39;:{&#39;compile&#39;:{&#39;win&#39;:&#39;java.bat %&lt;&#39;},&#39;inshell&#39;:1},
+            \&#39;dosbatch&#39;:{&#39;compile&#39;:&#39;%&#39;,&#39;inshell&#39;:1},
+            \&#39;sh&#39;:{&#39;compile&#39;:&#39;./%&#39;,&#39;inshell&#39;:1},
+            \&#39;xhtml&#39;:{&#39;compile&#39;:&#39;%&#39;,&#39;inshell&#39;:1},
+            \}</code></pre>
