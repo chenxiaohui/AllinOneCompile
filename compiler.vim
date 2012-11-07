@@ -7,24 +7,24 @@
 "* Thanks to Vimer, his blog(http://www.vimer.cn/?p=11) inspire me to write
 "* this plugin and some codes are also from his blog
 "* All rights reserved
-"* version:1.1
+"* version:1.0
 "*/
+
 
 "==========================================================================
 "option	 	default	suboption	  	meaning
-"			value
+"			value				
 "==========================================================================
-"compile    'make'	win,unix..		the default compile command
-"ucompile	'make'	win,unix..		compile command when file encoding is utf8
-"clean      'make'	win,unix..		the clean command
-"out		''		win,unix..		the output file type eg:png,pdf. This is
-"										needed if symbol %> is used
-"efm        ''		win,unix..		errorformat string
-"inshell    0		win,unix..		whether the command is run in shell or via makeprg.
-"before		''		win,unix..		command before compile
-"run		''		win,unix..		command run after compile
-"arg		''		compile,run		the parameters for run or compile
-"debug		''		win,unix
+"compile    'make'	win,unix..			the default compile command 
+"ucompile	'make'	win,unix..			compile command when file encoding is utf8
+"clean      'make'	win,unix..			the clean command 
+"out		''		win,unix..			the output file type eg:png,pdf,this is
+"											needed if symbol %> is used
+"efm        ''		win,unix..			errorformat string
+"inshell    0		win,unix..			whether the command is run in shell or via makeprg
+"before		''		win,unix..			command before compile
+"run		''		win,unix..			command run after compile
+"arg		''		compile,run,debug	the parameters for run or compile
 "==========================================================================
 
 "Attention: the args should be write like This
@@ -40,23 +40,24 @@
 "			symbol %> which means output file type, eg:png,pdf
 "			if symbol %> is used you should assign the option "out"
 
-
-let g:types={
-			\'c':{'compile':'gcc -o %<.%> %','arg':{'compile':'-g'},'out':{'win':'exe','unix':'out'},
-			\'run':{'win':'%<','unix':'./%<.%>'},'clean':'rm %<.%>'},
-			\'cpp':{'compile':'g++ -o %<.%> %','arg':{'compile':'-g'},'out':{'win':'exe','unix':'out'},
-			\'run':{'win':'%<','unix':'./%<.%>'},'clean':'rm %<.%>'},
-			\'tex':{'compile':'xelatex %','inshell':1, 'clean':'rm *.aux *.log *.out','out':'pdf'},
-			\'cs':{'compile':'csc /nologo /out:%<.%> %','efm':'%A%f(%l\\,%c):%m','out':'exe'},
-			\'python':{'compile':'python %','inshell':1,'debug':'python -m pdb %','arg':'file.tst'},
-			\'dot':{'compile':{'win':'dot.bat %< %>','unix':'dot -T%> % -o %<.%>'},'out':'png',
-			\'run':{'unix':'eog %<.%>'},'inshell':1},
-			\'php':{'compile':'php %','inshell':1},
-			\'java':{'compile':{'win':'java.bat %<'},'inshell':1},
-			\'dosbatch':{'compile':'%','inshell':1},
-			\'sh':{'compile':'./%','inshell':1},
-			\'xhtml':{'compile':'%','inshell':1},
-			\}
+if (!exists('g:types'))
+	let g:types={ 
+				\'c':{'compile':'gcc -o %<.%> %','arg':{'compile':'-g'},'out':{'win':'exe','unix':'out'},
+				\'run':{'win':'%<','unix':'./%<.%>'}},
+				\'cpp':{'compile':'g++ -o %<.%> %','arg':{'compile':'-g'},'out':{'win':'exe','unix':'out'},
+				\'run':{'win':'%<','unix':'./%<.%>'}},
+				\'tex':{'compile':{'win':'pdflatexgbk.bat %<','unix':'pdflatex %<'},
+				\'inshell':1, 'clean':'clear.bat %<','out':'pdf',
+				\'ucompile':{'win':'pdflatexutf.bat %<','unix':'pdflatex %<'}}, 
+				\'cs':{'compile':'csc /nologo /out:%<.%> %','efm':'%A%f(%l\\,%c):%m','out':'exe'},
+				\'python':{'compile':{'win':'python %','unix':'python3 %'},'inshell':1},
+				\'dot':{'compile':{'win':'dot.bat %< %>','unix':'dot -T%> % -o %<.%>'},'out':'png',
+				\'run':{'win':'%<.%>','unix':'eog %<.%>'},'inshell':1},
+				\'php':{'compile':'php %','inshell':1},
+				\'java':{'compile':{'win':'java.bat %<'},'inshell':1},
+				\'dosbatch':{'compile':'%','inshell':1},
+				\}
+endif 
 
 if g:iswindows
 	let s:os='win'
@@ -295,7 +296,7 @@ function! Do_Make()
 	echo 'Make succeed.'
 endfunction
 
-"debug
+"调试
 map <silent> <S-F5> :call Do_Debug()<cr> 
 function! Do_Debug()
 	if !CheckFile()
@@ -307,9 +308,11 @@ function! Do_Debug()
 	if !empty(Get('out',''))  
 		let outfilename=substitute(expand("%:t"),'\(\.[^.]*\)','.'.Get('out',''),'g')
 		if filereadable(outfilename)
-			let debugcmd=substitute(Get('debug','gdb %<.%>').' '.GetEx('arg','debug',''),'%<',expand('%<'),'g')
+			let debugcmd=substitute(Get('debug','gdb --args %<.%>').' '.GetEx('arg','debug',''),'%<',expand('%<'),'g')
 			let debugcmd=substitute(debugcmd,'%>',Get('out',''),'g')
 			let debugcmd=substitute(debugcmd,'%',expand('%'),'g')
+			
+			echohl WarningMsg | echo debugcmd | echohl None
 			execute "!".debugcmd
 		else
 			echohl WarningMsg | echo "No output file to debug." | echohl None
