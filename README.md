@@ -23,19 +23,18 @@ AllinOneCompile
 
 	==========================================================================
 	option	 	default	suboption	  	meaning
-				value
+				value				
 	==========================================================================
-	compile		'make'	win,unix..		the default compile command
-	ucompile	'make'	win,unix..		compile command when file encoding is utf8
-	clean		'make'	win,unix..		the clean command
-	out			''		win,unix..		the output file type eg:png,pdf. This is
-											needed if symbol %> is used
-	efm			''		win,unix..		errorformat string
-	inshell		0		win,unix..		whether the command is run in shell or via makeprg.
-	before		''		win,unix..		command before compile
-	run			''		win,unix..		command run after compile
-	arg			''		compile,run		the parameters for run or compile
-	debug		''		win,unix
+	compile    'make'	win,unix..			the default compile command 
+	ucompile	'make'	win,unix..			compile command when file encoding is utf8
+	clean      'make'	win,unix..			the clean command 
+	out		''		win,unix..			the output file type eg:png,pdf,this is
+												needed if symbol %> is used
+	efm        ''		win,unix..			errorformat string
+	inshell    0		win,unix..			whether the command is run in shell or via makeprg
+	before		''		win,unix..			command before compile
+	run		''		win,unix..			command run after compile
+	arg		''		compile,run,debug	the parameters for run or compile
 	==========================================================================
 
 ##Attention: 
